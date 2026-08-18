@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gouveai5media.github.io/depaulaadvsp/sitemap.xml
