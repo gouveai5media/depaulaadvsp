@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Área Executiva | De Paula</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+  <div class="bg-glow"></div>
+
+  <section class="login-screen" id="loginScreen">
+    <div class="login-card">
+      <div class="brand-row"><span class="brand-mark">DP</span><div><strong>DE PAULA</strong><small>ÁREA EXECUTIVA</small></div></div>
+      <span class="eyebrow">ACESSO RESTRITO</span>
+      <h1>Central do Executivo</h1>
+      <p>Acesse links, materiais e informações operacionais em um único lugar.</p>
+      <form id="loginForm">
+        <label>E-mail<input type="email" id="email" autocomplete="username" placeholder="executivo@depaula.com.br" required></label>
+        <label>Senha<input type="password" id="senha" autocomplete="current-password" placeholder="Sua senha" required></label>
+        <button type="submit">Entrar no painel</button>
+        <span class="error" id="loginError"></span>
+      </form>
+      <a class="back" href="index.html">← Voltar ao site</a>
+    </div>
+  </section>
+
+  <div class="app" id="adminApp" hidden>
+    <aside class="sidebar">
+      <div class="brand-row"><span class="brand-mark">DP</span><div><strong>DE PAULA</strong><small>ÁREA EXECUTIVA</small></div></div>
+      <nav>
+        <a href="#inicio" class="active">Visão geral</a>
+        <a href="#acessos">Acessos e links</a>
+        <a href="#materiais">Materiais</a>
+        <a href="#operacao">Operação</a>
+        <a href="#comercial">Comercial</a>
+        <a href="#avisos">Avisos</a>
+      </nav>
+      <button class="logout" id="logoutBtn">Sair</button>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div><span class="eyebrow">PAINEL INTERNO</span><h1>Olá, Executivo</h1><p>Informações essenciais da operação em um só ambiente.</p></div>
+        <a href="index.html" class="site-link">Ver site ↗</a>
+      </header>
+
+      <section id="inicio" class="hero-panel">
+        <div><small>AMBIENTE INTERNO</small><h2>Central de informações De Paula</h2><p>Use este painel como ponto único para acessar ferramentas, documentos, orientações e links do dia a dia comercial.</p></div>
+        <div class="status"><span>●</span> Painel ativo</div>
+      </section>
+
+      <section id="acessos" class="section-block">
+        <div class="section-head"><span class="eyebrow">ACESSOS E LINKS</span><h2>Links rápidos</h2></div>
+        <div class="grid cards">
+          <article class="card"><span class="icon">↗</span><h3>Ferramentas internas</h3><p>Links de sistemas e ambientes utilizados pelos executivos.</p><div class="placeholder">Aguardando cadastro dos links</div></article>
+          <article class="card"><span class="icon">⌘</span><h3>Portais e acessos</h3><p>Centralize portais, áreas restritas e páginas de apoio.</p><div class="placeholder">Aguardando cadastro dos acessos</div></article>
+          <article class="card"><span class="icon">☎</span><h3>Contatos importantes</h3><p>Atalhos para responsáveis internos e canais operacionais.</p><div class="placeholder">Aguardando cadastro dos contatos</div></article>
+        </div>
+      </section>
+
+      <section id="materiais" class="section-block">
+        <div class="section-head"><span class="eyebrow">MATERIAIS</span><h2>Biblioteca comercial</h2></div>
+        <div class="grid cards">
+          <article class="card"><h3>Apresentações</h3><p>Apresentações institucionais e comerciais.</p><div class="placeholder">Nenhum material cadastrado</div></article>
+          <article class="card"><h3>Contratos e documentos</h3><p>Modelos, minutas e documentos de apoio.</p><div class="placeholder">Nenhum documento cadastrado</div></article>
+          <article class="card"><h3>Artes e conteúdos</h3><p>Materiais para WhatsApp, reuniões e prospecção.</p><div class="placeholder">Nenhum conteúdo cadastrado</div></article>
+        </div>
+      </section>
+
+      <section id="operacao" class="section-block">
+        <div class="section-head"><span class="eyebrow">OPERAÇÃO</span><h2>Informações operacionais</h2></div>
+        <div class="wide-card"><h3>Fluxo e orientações</h3><p>Espaço destinado a procedimentos, prazos, documentos necessários e instruções para condução dos clientes.</p><div class="placeholder">Envie as primeiras informações para preenchermos esta área</div></div>
+      </section>
+
+      <section id="comercial" class="section-block">
+        <div class="section-head"><span class="eyebrow">COMERCIAL</span><h2>Suporte à negociação</h2></div>
+        <div class="grid cards">
+          <article class="card"><h3>Calculadoras</h3><p>Acesso às simulações utilizadas nas apresentações comerciais.</p><a class="card-link" href="index.html#calculadora">Abrir simulador tributário →</a></article>
+          <article class="card"><h3>Argumentos e FAQ</h3><p>Respostas rápidas para dúvidas recorrentes dos clientes.</p><div class="placeholder">Conteúdo em preparação</div></article>
+          <article class="card"><h3>Processo de fechamento</h3><p>Checklist de informações e próximos passos após a negociação.</p><div class="placeholder">Conteúdo em preparação</div></article>
+        </div>
+      </section>
+
+      <section id="avisos" class="section-block">
+        <div class="section-head"><span class="eyebrow">AVISOS</span><h2>Comunicados internos</h2></div>
+        <div class="wide-card"><span class="tag">INICIAL</span><h3>Painel executivo criado</h3><p>Esta área será atualizada com os links, acessos, documentos e orientações enviados pela gestão.</p></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
