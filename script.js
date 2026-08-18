@@ -1,14 +1,44 @@
 const brl = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
+const numeroBR = new Intl.NumberFormat('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 const apuracao=document.querySelector('#apuracao'), residual=document.querySelector('#residual'), desconto=document.querySelector('#desconto');
-function calcular(){
-  const a=Math.max(0,Number(apuracao.value)||0), r=Number(residual.value)/100, d=Number(desconto.value)/100;
-  const darf=a*r, credito=a-darf, economia=credito*d, reembolso=credito-economia, total=darf+reembolso;
-  residualLabel.textContent=`${residual.value}%`; descontoLabel.textContent=`${desconto.value}%`;
-  economiaMensal.textContent=brl.format(economia); economiaAnual.textContent=brl.format(economia*12); darfResidual.textContent=brl.format(darf); credito.textContent=brl.format(credito); reembolso.textContent=brl.format(reembolso); custoTotal.textContent=brl.format(total);
-  document.querySelectorAll('.preset button').forEach(b=>b.classList.toggle('active',b.dataset.preset===desconto.value));
+
+function valorApuracao(){
+  const digits=(apuracao.value||'').replace(/\D/g,'');
+  return digits ? Number(digits)/100 : 0;
 }
-[apuracao,residual,desconto].forEach(el=>el.addEventListener('input',calcular));
+function formatarApuracao(valor){
+  apuracao.value=numeroBR.format(Math.max(0,valor));
+}
+function calcular(){
+  const a=valorApuracao(), r=Number(residual.value)/100, d=Number(desconto.value)/100;
+  const darf=a*r, credito=a-darf, economia=credito*d, reembolso=credito-economia, total=darf+reembolso;
+  const pct=a>0?(economia/a)*100:0;
+  residualLabel.textContent=`${residual.value}%`;
+  descontoLabel.textContent=`${desconto.value}%`;
+  economiaMensal.textContent=brl.format(economia);
+  economiaAnual.textContent=brl.format(economia*12);
+  darfResidual.textContent=brl.format(darf);
+  credito.textContent=brl.format(credito);
+  reembolso.textContent=brl.format(reembolso);
+  custoTotal.textContent=brl.format(total);
+  if(document.getElementById('economiaPercentual')) economiaPercentual.textContent=`${pct.toFixed(1).replace('.',',')}% da apuração mensal`;
+  if(document.getElementById('cenarioResumo')) cenarioResumo.textContent=`${(100-Number(residual.value)).toFixed(0)}% da apuração projetada em crédito`;
+  document.querySelectorAll('.preset button').forEach(b=>b.classList.toggle('active',b.dataset.preset===desconto.value));
+  document.querySelectorAll('.amount-presets button').forEach(b=>b.classList.toggle('active',Number(b.dataset.apuracao)===Math.round(a)));
+}
+
+apuracao.addEventListener('input',()=>{
+  const pos=apuracao.selectionStart;
+  const a=valorApuracao();
+  formatarApuracao(a);
+  calcular();
+  try{apuracao.setSelectionRange(apuracao.value.length,apuracao.value.length)}catch(e){}
+});
+apuracao.addEventListener('focus',()=>apuracao.select());
+[residual,desconto].forEach(el=>el.addEventListener('input',calcular));
 document.querySelectorAll('.preset button').forEach(b=>b.addEventListener('click',()=>{desconto.value=b.dataset.preset;calcular()}));
+document.querySelectorAll('.amount-presets button').forEach(b=>b.addEventListener('click',()=>{formatarApuracao(Number(b.dataset.apuracao));calcular()}));
+
 menu.addEventListener('click',()=>nav.classList.toggle('open'));
 document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
 
@@ -41,13 +71,8 @@ if(ctaSection){
       </form>
     </div>`;
   ctaSection.parentNode.insertBefore(contatoSection,ctaSection);
-
   const contatoLink=document.createElement('a');
-  contatoLink.href='#contato';
-  contatoLink.textContent='Contato';
-  contatoLink.addEventListener('click',()=>nav.classList.remove('open'));
-  nav.appendChild(contatoLink);
-
+  contatoLink.href='#contato'; contatoLink.textContent='Contato'; contatoLink.addEventListener('click',()=>nav.classList.remove('open')); nav.appendChild(contatoLink);
   document.getElementById('contactForm').addEventListener('submit',e=>{
     e.preventDefault();
     const empresa=document.getElementById('contactEmpresa').value.trim();
@@ -55,11 +80,11 @@ if(ctaSection){
     const email=document.getElementById('contactEmail').value.trim();
     const telefone=document.getElementById('contactTelefone').value.trim();
     const mensagem=`Olá, gostaria de falar com a De Paula Advogados sobre uma avaliação tributária.\n\nEmpresa: ${empresa}\nResponsável: ${responsavel}\nE-mail: ${email}\nTelefone: ${telefone}`;
-    const whatsapp=`https://wa.me/5511932937691?text=${encodeURIComponent(mensagem)}`;
-    window.open(whatsapp,'_blank','noopener,noreferrer');
+    window.open(`https://wa.me/5511932937691?text=${encodeURIComponent(mensagem)}`,'_blank','noopener,noreferrer');
   });
 }
 
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+formatarApuracao(100000);
 calcular();
