@@ -75,23 +75,32 @@
     </section>
 
     <section class="section calculator-section" id="calculadora">
-      <div class="section-head reveal"><span class="eyebrow">SIMULADOR EXECUTIVO</span><h2>Digite a apuração. O simulador faz o restante.</h2><p>Informe o valor mensal e ajuste o cenário. Os indicadores são recalculados instantaneamente.</p></div>
-      <div class="calculator calculator-premium reveal">
+      <div class="section-head reveal"><span class="eyebrow">SIMULADOR EXECUTIVO</span><h2>Digite a apuração. O simulador faz o restante.</h2><p>Informe somente o valor mensal da apuração. A operação considera automaticamente 10% de DARF residual, 90% de crédito e economia fixa de 30% sobre o crédito.</p></div>
+      <div class="calculator calculator-premium calculator-fixed reveal">
         <div class="calc-inputs">
-          <div class="calc-kicker"><span>01</span><div><small>COMECE AQUI</small><strong>Qual é a apuração mensal?</strong></div></div>
-          <div class="money-field"><span>R$</span><input id="apuracao" type="text" inputmode="numeric" autocomplete="off" value="100.000,00" aria-label="Apuração mensal"></div>
-          <div class="amount-presets"><button type="button" data-apuracao="50000">R$ 50 mil</button><button type="button" data-apuracao="100000" class="active">R$ 100 mil</button><button type="button" data-apuracao="250000">R$ 250 mil</button><button type="button" data-apuracao="500000">R$ 500 mil</button></div>
-          <div class="calc-control"><label>DARF residual <span id="residualLabel">10%</span></label><input id="residual" type="range" min="0" max="30" value="10"><div class="range-scale"><span>0%</span><span>30%</span></div></div>
-          <div class="calc-control"><label>Desconto sobre o crédito <span id="descontoLabel">30%</span></label><input id="desconto" type="range" min="0" max="30" value="30"><div class="preset"><button type="button" data-preset="25">25%</button><button type="button" data-preset="30" class="active">30%</button></div></div>
-          <div class="calc-insight"><small>CENÁRIO ATUAL</small><strong id="cenarioResumo">90% da apuração projetada em crédito</strong><span>Atualização automática conforme os parâmetros acima.</span></div>
+          <div class="calc-kicker"><span>01</span><div><small>ÚNICO CAMPO EDITÁVEL</small><strong>Valor da apuração</strong></div></div>
+          <div class="money-field"><span>R$</span><input id="apuracao" type="text" inputmode="numeric" autocomplete="off" value="100.000,00" aria-label="Valor da apuração"></div>
+          <div class="fixed-economy-card">
+            <small>ECONOMIA APLICADA</small>
+            <strong>30%</strong>
+            <span>Fixa sobre os 90% correspondentes ao crédito utilizado.</span>
+          </div>
+          <div class="calc-rule-list">
+            <div><span>DARF residual</span><strong>10%</strong></div>
+            <div><span>Crédito utilizado</span><strong>90%</strong></div>
+          </div>
         </div>
         <div class="calc-results">
-          <div class="result highlight"><span>Economia mensal estimada</span><strong id="economiaMensal">R$ 27.000,00</strong><small id="economiaPercentual">27,0% da apuração mensal</small></div>
-          <div class="result"><span>Economia anual projetada</span><strong id="economiaAnual">R$ 324.000,00</strong></div>
-          <div class="result"><span>DARF residual</span><strong id="darfResidual">R$ 10.000,00</strong></div>
-          <div class="result"><span>Crédito utilizado</span><strong id="credito">R$ 90.000,00</strong></div>
-          <div class="result"><span>Reembolso do crédito</span><strong id="reembolso">R$ 63.000,00</strong></div>
-          <div class="total"><span>Custo total projetado após operação</span><strong id="custoTotal">R$ 73.000,00</strong><small>Residual + reembolso do crédito.</small></div>
+          <div class="result"><span>Crédito Utilizado</span><strong id="credito">R$ 90.000,00</strong><small>90% da apuração</small></div>
+          <div class="result"><span>DARF Residual</span><strong id="darfResidual">R$ 10.000,00</strong><small>10% da apuração</small></div>
+          <div class="result"><span>Pagamento pelo Crédito</span><strong id="reembolso">R$ 63.000,00</strong><small>Crédito menos a economia</small></div>
+          <div class="result"><span>Total a Desembolsar</span><strong id="custoTotal">R$ 73.000,00</strong><small>DARF residual + pagamento pelo crédito</small></div>
+          <div class="savings-card">
+            <div><span>ECONOMIA MENSAL</span><strong id="economiaMensal">R$ 27.000,00</strong></div>
+            <div class="savings-divider"></div>
+            <div><span>ECONOMIA PROJETADA EM 12 MESES</span><strong id="economiaAnual">R$ 324.000,00</strong></div>
+            <small id="validacaoCalculo">R$ 73.000,00 + R$ 27.000,00 = R$ 100.000,00</small>
+          </div>
         </div>
       </div>
       <p class="disclaimer">Simulação estimativa e não vinculante. Não representa promessa de economia, homologação ou aceitação fiscal. A aplicação depende de análise tributária, documental, jurídica e operacional específica.</p>
