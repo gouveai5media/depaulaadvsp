@@ -1,18 +1,31 @@
 const brl = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
 const numeroBR = new Intl.NumberFormat('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
-const apuracao=document.querySelector('#apuracao');
+
+const apuracao=document.getElementById('apuracao');
+const economiaMensalEl=document.getElementById('economiaMensal');
+const economiaAnualEl=document.getElementById('economiaAnual');
+const darfResidualEl=document.getElementById('darfResidual');
+const creditoEl=document.getElementById('credito');
+const reembolsoEl=document.getElementById('reembolso');
+const custoTotalEl=document.getElementById('custoTotal');
+const validacaoEl=document.getElementById('validacaoCalculo');
+const menuEl=document.getElementById('menu');
+const navEl=document.getElementById('nav');
 
 const DARF_RESIDUAL_PCT=0.10;
 const CREDITO_PCT=0.90;
 const ECONOMIA_SOBRE_CREDITO_PCT=0.30;
 
 function valorApuracao(){
+  if(!apuracao) return 0;
   const digits=(apuracao.value||'').replace(/\D/g,'');
   return digits ? Number(digits)/100 : 0;
 }
+
 function formatarApuracao(valor){
-  apuracao.value=numeroBR.format(Math.max(0,valor));
+  if(apuracao) apuracao.value=numeroBR.format(Math.max(0,valor));
 }
+
 function calcular(){
   const a=valorApuracao();
   const darf=a*DARF_RESIDUAL_PCT;
@@ -22,29 +35,29 @@ function calcular(){
   const total=darf+pagamentoCredito;
   const anual=economia*12;
 
-  economiaMensal.textContent=brl.format(economia);
-  economiaAnual.textContent=brl.format(anual);
-  darfResidual.textContent=brl.format(darf);
-  credito.textContent=brl.format(credito);
-  reembolso.textContent=brl.format(pagamentoCredito);
-  custoTotal.textContent=brl.format(total);
-
-  const validacao=document.getElementById('validacaoCalculo');
-  if(validacao){
-    validacao.textContent=`${brl.format(total)} + ${brl.format(economia)} = ${brl.format(a)}`;
-  }
+  if(economiaMensalEl) economiaMensalEl.textContent=brl.format(economia);
+  if(economiaAnualEl) economiaAnualEl.textContent=brl.format(anual);
+  if(darfResidualEl) darfResidualEl.textContent=brl.format(darf);
+  if(creditoEl) creditoEl.textContent=brl.format(credito);
+  if(reembolsoEl) reembolsoEl.textContent=brl.format(pagamentoCredito);
+  if(custoTotalEl) custoTotalEl.textContent=brl.format(total);
+  if(validacaoEl) validacaoEl.textContent=`${brl.format(total)} + ${brl.format(economia)} = ${brl.format(a)}`;
 }
 
-apuracao.addEventListener('input',()=>{
-  const a=valorApuracao();
-  formatarApuracao(a);
-  calcular();
-  try{apuracao.setSelectionRange(apuracao.value.length,apuracao.value.length)}catch(e){}
-});
-apuracao.addEventListener('focus',()=>apuracao.select());
+if(apuracao){
+  apuracao.addEventListener('input',()=>{
+    const a=valorApuracao();
+    formatarApuracao(a);
+    calcular();
+    try{apuracao.setSelectionRange(apuracao.value.length,apuracao.value.length)}catch(e){}
+  });
+  apuracao.addEventListener('focus',()=>apuracao.select());
+}
 
-menu.addEventListener('click',()=>nav.classList.toggle('open'));
-document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
+if(menuEl && navEl){
+  menuEl.addEventListener('click',()=>navEl.classList.toggle('open'));
+  document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',()=>navEl.classList.remove('open')));
+}
 
 // Formulário de contato
 const contatoStyle=document.createElement('style');
@@ -75,17 +88,25 @@ if(ctaSection){
       </form>
     </div>`;
   ctaSection.parentNode.insertBefore(contatoSection,ctaSection);
-  const contatoLink=document.createElement('a');
-  contatoLink.href='#contato'; contatoLink.textContent='Contato'; contatoLink.addEventListener('click',()=>nav.classList.remove('open')); nav.appendChild(contatoLink);
-  document.getElementById('contactForm').addEventListener('submit',e=>{
-    e.preventDefault();
-    const empresa=document.getElementById('contactEmpresa').value.trim();
-    const responsavel=document.getElementById('contactResponsavel').value.trim();
-    const email=document.getElementById('contactEmail').value.trim();
-    const telefone=document.getElementById('contactTelefone').value.trim();
-    const mensagem=`Olá, gostaria de falar com a De Paula Advogados sobre uma avaliação tributária.\n\nEmpresa: ${empresa}\nResponsável: ${responsavel}\nE-mail: ${email}\nTelefone: ${telefone}`;
-    window.open(`https://wa.me/5511932937691?text=${encodeURIComponent(mensagem)}`,'_blank','noopener,noreferrer');
-  });
+  if(navEl){
+    const contatoLink=document.createElement('a');
+    contatoLink.href='#contato';
+    contatoLink.textContent='Contato';
+    contatoLink.addEventListener('click',()=>navEl.classList.remove('open'));
+    navEl.appendChild(contatoLink);
+  }
+  const contactForm=document.getElementById('contactForm');
+  if(contactForm){
+    contactForm.addEventListener('submit',e=>{
+      e.preventDefault();
+      const empresa=document.getElementById('contactEmpresa').value.trim();
+      const responsavel=document.getElementById('contactResponsavel').value.trim();
+      const email=document.getElementById('contactEmail').value.trim();
+      const telefone=document.getElementById('contactTelefone').value.trim();
+      const mensagem=`Olá, gostaria de falar com a De Paula Advogados sobre uma avaliação tributária.\n\nEmpresa: ${empresa}\nResponsável: ${responsavel}\nE-mail: ${email}\nTelefone: ${telefone}`;
+      window.open(`https://wa.me/5511932937691?text=${encodeURIComponent(mensagem)}`,'_blank','noopener,noreferrer');
+    });
+  }
 }
 
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});
